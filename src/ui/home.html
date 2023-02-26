@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="../library/bs/bootstrap.css">
+</head>
+
+<body>
+    <div class=".container-fluid m-4">
+
+        <!-- Content here -->
+        <!-- APNS -->
+
+        <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" value="" id="idIsDevelopment" checked>
+            <label class="form-check-label" for="idIsDevelopment">
+                is Development
+            </label>
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="idPushType">Push Type</label>
+            <select class="form-select" id="idPushType">
+              <!-- <option selected>Choose...</option> -->
+              <option value="alert">alert</option>
+              <option value="background">background</option>
+              <option value="location">location</option>
+              <option value="voip">voip</option>
+              <option value="complication">complication</option>
+              <option value="fileprovider">fileprovider</option>
+              <option value="mdm">mdm</option>
+              <option value="liveactivity">liveactivity</option>
+            </select>
+          </div>
+
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="idPushPririty">Priority</label>
+            <select class="form-select" id="idPushPririty">
+              <!-- <option selected>Choose...</option> -->
+              <option value="10">10</option>
+              <option value="5">5</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+
+       
+
+        <input id="idKeyID" class="form-control mt-2" type="text" placeholder="Key ID" aria-label="default input example">
+        <input id="idTeamID" class="form-control mt-2" type="text" placeholder="Team ID" aria-label="default input example">
+        <input id="idBundleID" class="form-control mt-2" type="text" placeholder="Bundle ID" aria-label="default input example">
+
+        <input id="file_p8" type="file" class="form-control mt-2" accept=".p8">
+        <input id="idDeviceToken" class="form-control mt-2" type="text" placeholder="Device Token" aria-label="default input example">
+
+
+
+        <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="idIsJSON">
+            <label class="form-check-label" for="idIsJSON">
+                JSON
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Push Message</label>
+            <textarea class="form-control" id="txt_payload" rows="3">Hello world!</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label id="lbl_json_preview" class="form-label" aria-multiline="true"></label>
+        </div>
+
+        <div class="mb-3">
+            <!-- <label id="lbl_json_preview" class="form-label"></label> -->
+            <!-- <button id="btn_send_push" type="button" class="btn btn-outline-primary mt-2">Send Push</button> -->
+            <button id="btn_send_push" type="button" class="btn btn-outline-primary">Send Push</button>
+        </div>
+
+        
+    </div>
+
+    <script src="../library/jq/jquery-3.6.3.slim.min.js"></script>
+    <script src="../library/bs/bootstrap.bundle.js"></script>
+    <script src="../renderer/home-renderer.ts"></script>
+
+</body>
+
+</html>
