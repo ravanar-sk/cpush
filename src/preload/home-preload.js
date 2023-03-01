@@ -3,9 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron')
 console.log("Preload script executed");
 
 contextBridge.exposeInMainWorld('native_bridge', {
-
-  getBearerToken: (...args) => {
-    return ipcRenderer.invoke('getBearerToken', ...args)
+  sendPush: (...args) => {
+    return ipcRenderer.invoke('sendPush', ...args)
   }
-  // we can also expose variables, not just functions
 })

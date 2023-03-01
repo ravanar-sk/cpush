@@ -5,6 +5,12 @@
 // import dayjs from 'dayjs';
 // const dayjs = require('dayjs');
 
+const developmentURL = "https://api.sandbox.push.apple.com/";
+const productionURL = "https://api.push.apple.com/";
+
+const port = 443;
+
+
 /**
  * 
  */
@@ -96,16 +102,16 @@ const getPrivateKey = () => {
 
 async function sendAPNSPush() {
 
-
-    const pushType = $("idPushType").val()
-    const priority = $("idPushPririty").val()
-    const keyID = $("idKeyID").val()
-    const teamID = $("idTeamID").val()
-    const bundleID = $("idBundleID").val()
+    const isDev = $("#idIsJSON").is(":checked")
+    const pushType = $("#idPushType").val()
+    const priority = $("#idPushPririty").val()
+    const keyID = $("#idKeyID").val()
+    const teamID = $("#idTeamID").val()
+    const bundleID = $("#idBundleID").val()
     const privateKey = await getPrivateKey();
 
-    const deviceToken = $("idDeviceToken").val()
-    const isJSON = $("idIsJSON").val()
+    const deviceToken = $("#idDeviceToken").val()
+    const isJSON = $("#idIsJSON").val()
 
     let stringPayload = $("#txt_payload").val()
 
@@ -114,41 +120,23 @@ async function sendAPNSPush() {
             "alert": stringPayload
         }
     }
+
     if ($("#idIsJSON").is(":checked")) {
         jsonPayload = JSON.parse(stringPayload);
     }
 
-    // const response = 
-    console.log("code_33") // prints out 'pong'
-    try {
-        const bearerToken = await window.native_bridge.getBearerToken(privateKey, keyID, teamID)
-        // const bearerToken = await window.native_bridge.getBearerToken("privateKey", "keyID", "teamID")
-        console.log("code_99 :" + bearerToken)
-    } catch (error) {
-        console.log("code_13 :" + error)
+    const header = {
+        "apns-push-type": pushType,
+        "apns-priority": priority,
+        "apns-topic": bundleID
     }
 
-    console.log("code_23 :")
-
-    let myHeaders = new Headers();
-    myHeaders.append("apns-push-type", pushType);
-    myHeaders.append("apns-topic", bundleID);
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6IllWQzlXTE5KVTYifQ.eyJpc3MiOiI0RjdIVDdQQjhYIiwiaWF0IjoxNjY5NDYxNjQyfQ.ty5U_huToaDiC6LYpROVermNFfGTC6L6bESFc-LL0UlQylyk4inMPm0KrmGX0QOj4-tyCUXJud_p5-OprHIJhQ");
-    myHeaders.append("Content-Type", "application/json");
-
-    var requestOptions = {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: myHeaders,
-        body: jsonPayload,
-        redirect: 'follow',
-    };
-
-    return;
-    fetch("https://api.sandbox.push.apple.com/3/device/4c90e04a66d10382eec5d2c0e57483e683eafe580f7e576fe76c7ee13c671e25", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    try {
+        const result = await window.native_bridge.sendPush(header, jsonPayload, deviceToken, true, privateKey, keyID, teamID)
+        alert("SUCCESS" + JSON.stringify(result))
+    } catch (error) {
+        alert("ERROR " + JSON.stringify(error))
+    }
 
 };
 
