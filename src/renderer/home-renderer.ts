@@ -24,7 +24,7 @@ $('#txt_payload').on('input', function (e) {
 
 $('#btn_send_push').on('click', function () {
     // readFile()
-    sendAPNSPush();
+    // sendAPNSPush();
 });
 
 $('#idIsJSON').on('click', function () {
@@ -51,7 +51,7 @@ const buildPayload = () => {
         }
     };
 
-    const payloadString = JSON.stringify(payload, null, " ");
+    const payloadString = JSON.stringify(payload, null, 2);
     console.log(payloadString);
     $('#lbl_json_preview').text(payloadString);
 }
@@ -139,4 +139,3 @@ async function sendAPNSPush() {
     }
 
 };
-

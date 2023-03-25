@@ -20,8 +20,7 @@
             <!-- APNS -->
 
             <div class="d-flex justify-content-center">
-                <div class="btn-group btn-group-lg " role="group"
-                    aria-label="Basic radio toggle button group">
+                <div class="btn-group btn-group-lg " role="group">
                     <input type="radio" class="btn-check" name="btnradio" id="btnAPNS" autocomplete="off" checked>
                     <label class="btn btn-outline-secondary" for="btnAPNS">APNS</label>
 
@@ -71,19 +70,43 @@
 
             <div class="row">
                 <div class="col">
-                    <input id="idKeyID" class="form-control mt-2" type="text" placeholder="Key ID"
-                        aria-label="default input example">
+                    <input id="idKeyID" class="form-control mt-2 is-invalid" type="text" placeholder="Key ID">
+                    <div class="invalid-feedback">
+                        Please provide Key ID
+                    </div>
                 </div>
                 <div class="col">
-                    <input id="idTeamID" class="form-control mt-2" type="text" placeholder="Team ID"
-                        aria-label="default input example">
+                    <input id="idTeamID" class="form-control mt-2 is-invalid" type="text" placeholder="Team ID">
+                    <div class="invalid-feedback">
+                        Please provide Team ID
+                    </div>
                 </div>
             </div>
 
-            <input id="idBundleID" class="form-control mt-2" type="text" placeholder="Bundle ID"
-                aria-label="default input example">
+            <div>
+                <input id="idBundleID" class="form-control mt-2 is-invalid" type="text" placeholder="Bundle ID">
+                <div class="invalid-feedback">
+                    Please provide app bundle id
+                </div>
+            </div>
 
-            <input id="file_p8" type="file" class="form-control mt-2" accept=".p8">
+            <div class="btn-group btn-group-sm" role="group">
+                <input type="radio" class="btn-check" name="btnradio2" id="btnP8" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary" for="btnP8">P8</label>
+
+                <input type="radio" class="btn-check" name="btnradio2" id="btnP12" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="btnP12">P12</label>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <input id="file_p8" type="file" class="form-control mt-2" accept=".p8">
+                </div>
+                <div class="col">
+                    <input id="idKeyID" class="form-control mt-2" type="text" placeholder="Password">
+                </div>
+            </div>
+            
 
             <input id="idDeviceToken" class="form-control mt-2" type="text" placeholder="Device Token"
                 aria-label="default input example">
@@ -100,7 +123,10 @@
             </div>
 
             <div class="mb-3">
-                <label id="lbl_json_preview" class="form-label" aria-multiline="true"></label>
+                <pre id="lbl_json_preview">
+
+                </pre>
+                <!-- <label id="lbl_json_preview" class="form-label" aria-multiline="true"></label> -->
             </div>
 
             <div class="mb-3">
