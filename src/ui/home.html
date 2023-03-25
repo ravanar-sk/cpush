@@ -100,16 +100,18 @@
 
             <div class="row">
                 <div class="col">
-                    <input id="file_p8" type="file" class="form-control mt-2" accept=".p8">
+                    <input id="auth_cert_file" type="file" class="form-control mt-2 is-invalid" accept=".p8">
+                    <div class="invalid-feedback">
+                        please select a certificate
+                    </div>
                 </div>
-                <div class="col">
-                    <input id="idKeyID" class="form-control mt-2" type="text" placeholder="Password">
+                <div id="auth_cert_password_container" class="col" >
+                    <input id="auth_cert_password" class="form-control mt-2" type="text" placeholder="Password">
                 </div>
             </div>
             
 
-            <input id="idDeviceToken" class="form-control mt-2" type="text" placeholder="Device Token"
-                aria-label="default input example">
+            <input id="idDeviceToken" class="form-control mt-2" type="text" placeholder="Device Token">
 
             <div class="form-check mt-2">
                 <input class="form-check-input" type="checkbox" id="idIsJSON">
@@ -124,7 +126,6 @@
 
             <div class="mb-3">
                 <pre id="lbl_json_preview">
-
                 </pre>
                 <!-- <label id="lbl_json_preview" class="form-label" aria-multiline="true"></label> -->
             </div>

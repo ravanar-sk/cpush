@@ -5,10 +5,10 @@
 // import dayjs from 'dayjs';
 // const dayjs = require('dayjs');
 
-const developmentURL = "https://api.sandbox.push.apple.com/";
-const productionURL = "https://api.push.apple.com/";
+// const developmentURL = "https://api.sandbox.push.apple.com/";
+// const productionURL = "https://api.push.apple.com/";
 
-const port = 443;
+// const port = 443;
 
 
 /**
@@ -44,6 +44,16 @@ $('#idIsJSON').on('click', function () {
     }
 });
 
+$('#btnP8').on('click', function() {
+    $('#auth_cert_password_container').attr("hidden", true);
+    $('#auth_cert_file').attr("accept", ".p8");
+});
+
+$('#btnP12').on('click', function() {
+    $('#auth_cert_password_container').attr("hidden", false);
+    $('#auth_cert_file').attr("accept", ".p12");
+});
+
 const buildPayload = () => {
     const payload = {
         "aps": {
@@ -58,7 +68,7 @@ const buildPayload = () => {
 
 const getPrivateKey = () => {
     return new Promise((resolve, reject) => {
-        var file = document.getElementById("file_p8").files[0];
+        var file = document.getElementById("auth_cert_file").files[0];
         if (file) {
             var reader = new FileReader();
             reader.readAsText(file, "UTF-8");
