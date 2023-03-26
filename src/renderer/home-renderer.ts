@@ -1,14 +1,3 @@
-// import jose from 'jose';
-// const jose = require("jose");
-// import DateTime from "luxon"
-// const { DateTime } = require("luxon");
-// import dayjs from 'dayjs';
-// const dayjs = require('dayjs');
-
-// const developmentURL = "https://api.sandbox.push.apple.com/";
-// const productionURL = "https://api.push.apple.com/";
-
-// const port = 443;
 
 
 /**
@@ -23,33 +12,33 @@ $('#txt_payload').on('input', function (e) {
  */
 
 $('#btn_send_push').on('click', function () {
+    validData()
+    // getPrivateKeyP12().then(key => console.log("KEY => " + key)).catch(e => console.log(e));
     // readFile()
     // sendAPNSPush();
 });
 
+const defaultJSONPayload = {
+    aps: {
+        alert: "Hello World!",
+        sound: "default"
+    }
+}
+
 $('#idIsJSON').on('click', function () {
-
     if ($("#idIsJSON").is(":checked")) {
-
-        console.log('Checked');
-        const dummyJSON = { "aps": { "alert": "Hello world!" } }
-
-        $("#txt_payload").val(JSON.stringify(dummyJSON));
+        $("#txt_payload").val(JSON.stringify(defaultJSONPayload));
     } else {
-
-        console.log('Un checked');
-
-        $("#txt_payload").val("Hello world!");
-        // $("#txt_payload").text("Hello world!");
+        $("#txt_payload").val(defaultJSONPayload.aps.alert);
     }
 });
 
-$('#btnP8').on('click', function() {
+$('#btnP8').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", true);
     $('#auth_cert_file').attr("accept", ".p8");
 });
 
-$('#btnP12').on('click', function() {
+$('#btnP12').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", false);
     $('#auth_cert_file').attr("accept", ".p12");
 });
@@ -86,29 +75,76 @@ const getPrivateKey = () => {
     });
 }
 
-// const bearerToken = async (privateKey, keyID, teamID) => {
-//     // const header
+const getPrivateKeyP12 = async () => {
 
-//     const headers = {
-//         "alg" : "ES256",
-//         "kid" : keyID
-//     }
+    const password = "12345" //TODO: Read from Input
 
-//     const currentTime = dayjs()
-//     const currentTimePlus1Hour = currentTime.add(1, 'hour').unix()
+    return new Promise((resolve, reject) => {
+        var file = document.getElementById("auth_cert_file").files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsBinaryString(file);
+            reader.onload = async function (evt) {
+                try {
+                    const privateKey = window.native_bridge.getPrivateKeyFromP12(evt.target.result, password)
+                    resolve(privateKey)
+                } catch (e) {
+                    reject(e)
+                }
+            }
+            reader.onerror = function (evt) {
+                reject("Certificate Read error");
+            }
+        } else {
+            reject("no file error")
+        }
+    });
+}
 
-//     const claims = {
-//         "iss": teamID,
-//         "iat": currentTimePlus1Hour
-//      }
+function loadDefaultUI() {
 
-//      const privateKey = await getPrivateKey()
+}
 
-//      const jwt = await new jose.SignJWT(claims).setProtectedHeader(headers).sign(privateKey);
+function validData() {
 
-//      console.log(jwt)
-//      console.log()
-// }
+    let isValid = true
+
+    const keyID = $("#idKeyID").val()
+    if (keyID?.toString().trim().length == 0) {
+        isValid = false
+        $("#idKeyID").addClass('is-invalid')
+    } else {
+        $("#idKeyID").removeClass('is-invalid')
+    }
+
+    const teamID = $("#idTeamID").val()
+    if (teamID?.toString().trim().length == 0) {
+        isValid = false
+        $("#idTeamID").addClass('is-invalid')
+    } else {
+        $("#idTeamID").removeClass('is-invalid')
+    }
+
+    const bundleID = $("#idBundleID").val()
+    if (bundleID?.toString().trim().length == 0) {
+        isValid = false
+        $("#idBundleID").addClass('is-invalid')
+    } else {
+        $("#idBundleID").removeClass('is-invalid')
+    }
+
+
+    const deviceToken = $("#idDeviceToken").val()
+    if (deviceToken?.toString().trim().length == 0) {
+        isValid = false
+        $("#idDeviceToken").addClass('is-invalid')
+    } else {
+        $("#idDeviceToken").removeClass('is-invalid')
+    }
+
+    // const payload = $("#idTeamID").val()
+
+}
 
 async function sendAPNSPush() {
 

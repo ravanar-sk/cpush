@@ -45,13 +45,13 @@
                         <select class="form-select" id="idPushType">
                             <!-- <option selected>Choose...</option> -->
                             <option value="alert">alert</option>
-                            <option value="background">background</option>
-                            <option value="location">location</option>
-                            <option value="voip">voip</option>
-                            <option value="complication">complication</option>
-                            <option value="fileprovider">fileprovider</option>
-                            <option value="mdm">mdm</option>
-                            <option value="liveactivity">liveactivity</option>
+                            <!-- <option value="background">background</option> -->
+                            <!-- <option value="location">location</option> -->
+                            <!-- <option value="voip">voip</option> -->
+                            <!-- <option value="complication">complication</option> -->
+                            <!-- <option value="fileprovider">fileprovider</option> -->
+                            <!-- <option value="mdm">mdm</option> -->
+                            <!-- <option value="liveactivity">liveactivity</option> -->
                         </select>
                     </div>
                 </div>
@@ -70,13 +70,13 @@
 
             <div class="row">
                 <div class="col">
-                    <input id="idKeyID" class="form-control mt-2 is-invalid" type="text" placeholder="Key ID">
+                    <input id="idKeyID" class="form-control mt-2 " type="text" placeholder="Key ID">
                     <div class="invalid-feedback">
                         Please provide Key ID
                     </div>
                 </div>
                 <div class="col">
-                    <input id="idTeamID" class="form-control mt-2 is-invalid" type="text" placeholder="Team ID">
+                    <input id="idTeamID" class="form-control mt-2 " type="text" placeholder="Team ID">
                     <div class="invalid-feedback">
                         Please provide Team ID
                     </div>
@@ -84,7 +84,7 @@
             </div>
 
             <div>
-                <input id="idBundleID" class="form-control mt-2 is-invalid" type="text" placeholder="Bundle ID">
+                <input id="idBundleID" class="form-control mt-2 " type="text" placeholder="Bundle ID">
                 <div class="invalid-feedback">
                     Please provide app bundle id
                 </div>
@@ -100,18 +100,22 @@
 
             <div class="row">
                 <div class="col">
-                    <input id="auth_cert_file" type="file" class="form-control mt-2 is-invalid" accept=".p8">
+                    <input id="auth_cert_file" type="file" class="form-control mt-2 " accept=".p8">
                     <div class="invalid-feedback">
                         please select a certificate
                     </div>
                 </div>
-                <div id="auth_cert_password_container" class="col" >
+                <div id="auth_cert_password_container" class="col">
                     <input id="auth_cert_password" class="form-control mt-2" type="text" placeholder="Password">
                 </div>
             </div>
-            
 
-            <input id="idDeviceToken" class="form-control mt-2" type="text" placeholder="Device Token">
+            <div>
+                <input id="idDeviceToken" class="form-control mt-2 " type="text" placeholder="Device Token">
+                <div class="invalid-feedback">
+                    please add device token
+                </div>
+            </div>
 
             <div class="form-check mt-2">
                 <input class="form-check-input" type="checkbox" id="idIsJSON">
@@ -119,18 +123,29 @@
                     JSON
                 </label>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Push Message</label>
-                <textarea class="form-control" id="txt_payload" rows="3">Hello world!</textarea>
+            <div class="">
+                
+
             </div>
 
-            <div class="mb-3">
-                <pre id="lbl_json_preview">
-                </pre>
-                <!-- <label id="lbl_json_preview" class="form-label" aria-multiline="true"></label> -->
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Push Message</label>
+                    <textarea class="form-control" id="txt_payload" rows="3">Hello world!</textarea>
+                    <div class="invalid-feedback">
+                        please add device token
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label">Payload preview:</label>
+                    <pre id="lbl_json_preview">
+                    </pre>
+                </div>
+
+                
             </div>
 
-            <div class="mb-3">
+            <div class="">
                 <!-- <label id="lbl_json_preview" class="form-label"></label> -->
                 <!-- <button id="btn_send_push" type="button" class="btn btn-outline-primary mt-2">Send Push</button> -->
                 <button id="btn_send_push" type="button" class="btn btn-outline-primary">Send Push</button>

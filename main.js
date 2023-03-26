@@ -21,6 +21,10 @@ const createWindow = () => {
         const result = await apns.sendPush(args[0], args[1], args[2],args[3], args[4], args[5],args[6])
         return result
     })
+    ipcMain.handle("getPrivateKeyFromP12", async (event, ...args) => {
+        const result = await apns.getPrivateKeyFromP12(args[0], args[1])
+        return result
+    })
 
     win.loadFile('./src/ui/home.html')
 }
