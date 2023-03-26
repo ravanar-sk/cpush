@@ -27,10 +27,12 @@ const defaultJSONPayload = {
 
 $('#idIsJSON').on('click', function () {
     if ($("#idIsJSON").is(":checked")) {
-        $("#txt_payload").val(JSON.stringify(defaultJSONPayload));
+        $("#txt_payload").val(JSON.stringify(defaultJSONPayload, null, 2));
     } else {
         $("#txt_payload").val(defaultJSONPayload.aps.alert);
     }
+
+    buildPayload();
 });
 
 $('#btnP8').on('click', function () {
@@ -44,15 +46,25 @@ $('#btnP12').on('click', function () {
 });
 
 const buildPayload = () => {
-    const payload = {
-        "aps": {
-            "alert": $('#txt_payload').val()
-        }
-    };
 
-    const payloadString = JSON.stringify(payload, null, 2);
-    console.log(payloadString);
-    $('#lbl_json_preview').text(payloadString);
+    if ($("#idIsJSON").is(":checked")) {
+        const value = $('#txt_payload').val();
+
+        try {
+            const tempString = JSON.parse(value)
+            $('#lbl_json_preview').text(value);
+        } catch (e) {
+            $('#lbl_json_preview').text("Enter valid JSON");
+        }
+
+        
+    } else {
+        let tempPayload = JSON.parse(JSON.stringify(defaultJSONPayload));
+        tempPayload.aps.alert = $('#txt_payload').val();
+
+        const payloadString = JSON.stringify(tempPayload, null, 2);
+        $('#lbl_json_preview').text(payloadString);
+    }
 }
 
 const getPrivateKey = () => {
@@ -144,8 +156,25 @@ function validData() {
 
     // const payload = $("#idTeamID").val()
 
-}
+    const payload = $('#txt_payload').val();
+    const isJSON = $("#idIsJSON").is(":checked")
 
+    if (isJSON) {
+        try {
+            JSON.parse(payload);
+            $("#txt_payload").removeClass('is-invalid')
+        } catch (e) {
+            $("#txt_payload").addClass('is-invalid')
+        }
+    } else {
+        if (payload?.toString().trim().length == 0) {
+            isValid = false
+            $("#txt_payload").addClass('is-invalid')
+        } else {
+            $("#txt_payload").removeClass('is-invalid')
+        }
+    }
+}
 async function sendAPNSPush() {
 
     const isDev = $("#idIsJSON").is(":checked")
@@ -185,3 +214,7 @@ async function sendAPNSPush() {
     }
 
 };
+
+
+
+buildPayload()
