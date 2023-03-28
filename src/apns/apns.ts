@@ -3,8 +3,7 @@ const productionURL = "https://api.push.apple.com";
 
 // const port: number = 443;
 
-const http2 = require('http2')
-const axios = require('axios');
+const http2 = require('http2');
 const jose = require('jose');
 const dayjs = require('dayjs');
 // const p12 = require('p12-pem');
@@ -20,11 +19,12 @@ const getPrivateKeyFromP12 = async (p12base64, password) => {
             const p12Asn1 = forge.asn1.fromDer(p12base64);
             const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, false, password);
             const pemKey = getKeyFromP12(p12, password);
+            const { pemCertificate, commonName } = getCertificateFromP12(p12);
 
             if (pemKey !== null &&
                 pemKey !== undefined &&
                 pemKey.length > 0) {
-                resolve(pemKey)
+                resolve({ pemKey, pemCertificate, commonName })
             } else {
                 reject("private key not found")
             }
@@ -51,6 +51,16 @@ function getKeyFromP12(p12, password = '') {
 
         return pemKey;
 }
+
+function getCertificateFromP12(p12) {
+    const certData = p12.getBags({ bagType: forge.pki.oids.certBag });
+    const certificate = certData[forge.pki.oids.certBag][0];
+  
+    let pemCertificate = forge.pki.certificateToPem(certificate.cert);
+    pemCertificate = pemCertificate.replace(/\r\n/g, '');
+    const commonName = certificate.cert.subject.attributes[0].value;
+    return { pemCertificate, commonName };
+  }
 
 const generateAuthToken = async (privateKeyString, keyID, teamID) => {
     const privateKey = await jose.importPKCS8(privateKeyString, "ES256")
@@ -116,7 +126,57 @@ const sendPush = async (headers, body, deviceToken, isDevelopment, privateKey, k
     session.on('error', (err) => console.error(err))
 }
 
+const sendPushP12 = async (headers, body, deviceToken, isDevelopment, p12base64, password = '') => {
+
+    const baseURL = isDevelopment ? developmentURL : productionURL
+    const endPath = `/3/device/${deviceToken}`
+
+    
+
+    const { pemKey, pemCertificate, commonName } = await getPrivateKeyFromP12(p12base64, password)
+
+    const session = http2.connect(baseURL, {
+        ca: pemCertificate
+    });
+
+
+
+    const req = session.request({
+        ':path': endPath,
+        ':method': 'POST',
+        ':scheme': 'https',
+        ...headers
+    })
+
+    req.write(JSON.stringify(body), 'utf8')
+
+    req.end()
+
+    req.on('response', (headers) => {
+        // we can log each response header here
+        for (const name in headers) {
+            console.log(`${name}: ${headers[name]}`)
+        }
+    })
+
+    req.setEncoding('utf8')
+    let data = ''
+
+
+    req.on('data', (chunk) => { data += chunk })
+
+    req.on('end', () => {
+        console.log(`\ndata : ${data}`)
+        // In this case, we don't want to make any more
+        // requests, so we can close the session
+        session.close()
+    })
+
+    // If there is any error in connecting, log it to the console
+    session.on('error', (err) => console.error(err))
+}
+
 module.exports = {
     sendPush,
-    getPrivateKeyFromP12
+    sendPushP12
 };
