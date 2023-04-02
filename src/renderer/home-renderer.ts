@@ -69,7 +69,7 @@ const buildPayload = () => {
     }
 }
 
-const getPrivateKey = () => {
+const getPrivateKeyP8 = () => {
     return new Promise((resolve, reject) => {
         var file = document.getElementById("auth_cert_file").files[0];
         if (file) {
@@ -157,7 +157,7 @@ function validData() {
             $("#idDeviceToken").removeClass('is-invalid')
         }
 
-        
+
         var file = document.getElementById("auth_cert_file").files[0];
         if (file) {
             $("#auth_cert_file").removeClass('is-invalid')
@@ -233,29 +233,26 @@ function validData() {
             }
         }
     }
-
-
-
     return isValid;
 }
-async function sendAPNSPush() {
+function sendAPNSPush() {
+    if ($("#btnP8").is(":checked")) {
+        sendAPNS_P8()
+    } else if ($("#btnP12").is(":checked")) {
+        sendAPNS_P12()
+    } else {
 
+    }
+};
+
+const sendAPNS_P8 = async () => {
     const isDev = $("#idIsJSON").is(":checked")
     const pushType = $("#idPushType").val()
     const priority = $("#idPushPririty").val()
     const keyID = $("#idKeyID").val()
     const teamID = $("#idTeamID").val()
     const bundleID = $("#idBundleID").val()
-    let privateKey = ''
-    let p12base64 = ''
-
-    if ($("#btnP8").is(":checked")) {
-        privateKey = await getPrivateKey();
-    } else if ($("#btnP12").is(":checked")) {
-        p12base64 = await getPrivateKeyP12();
-    } else {
-
-    }
+    const privateKey = await getPrivateKeyP8();
 
     const deviceToken = $("#idDeviceToken").val()
     const isJSON = $("#idIsJSON").val()
@@ -279,14 +276,49 @@ async function sendAPNSPush() {
     }
 
     try {
-        // const result = await window.native_bridge.sendPush(header, jsonPayload, deviceToken, true, privateKey, keyID, teamID)
-        const result = await window.native_bridge.sendPushP12(header, jsonPayload, deviceToken, true, p12base64, "1234")
+        const result = await window.native_bridge.sendPush(header, jsonPayload, deviceToken, true, privateKey, keyID, teamID)
         alert("SUCCESS" + JSON.stringify(result))
     } catch (error) {
         alert("ERROR " + JSON.stringify(error))
     }
+}
 
-};
+const sendAPNS_P12 = async () => {
+    const isDev = $("#idIsJSON").is(":checked")
+    const pushType = $("#idPushType").val()
+    const priority = $("#idPushPririty").val()
+    const bundleID = $("#idBundleID").val()
+    const p12base64 = await getPrivateKeyP12();
+    const password = $("#auth_cert_password").val();
+
+    const deviceToken = $("#idDeviceToken").val()
+    const isJSON = $("#idIsJSON").val()
+
+    let stringPayload = $("#txt_payload").val()
+
+    let jsonPayload = {
+        "aps": {
+            "alert": stringPayload
+        }
+    }
+
+    if ($("#idIsJSON").is(":checked")) {
+        jsonPayload = JSON.parse(stringPayload);
+    }
+
+    const header = {
+        "apns-push-type": pushType,
+        "apns-priority": priority,
+        "apns-topic": bundleID
+    }
+
+    try {
+        const result = await window.native_bridge.sendPushP12(header, jsonPayload, deviceToken, isDev, p12base64, password)
+        alert("SUCCESS" + JSON.stringify(result))
+    } catch (error) {
+        alert("ERROR " + JSON.stringify(error))
+    }
+}
 
 
 
