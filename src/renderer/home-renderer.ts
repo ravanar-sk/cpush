@@ -38,13 +38,14 @@ $('#btnP8').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", true);
     $('#auth_cert_file').attr("accept", ".p8");
     $('#idContainerKeyID').attr("hidden", false);
+    resetErrorFields();
 });
 
 $('#btnP12').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", false);
-    $('#auth_cert_file').attr("accept", ".p12");
-
+    $('#auth_cert_file').attr("accept", ".p12")
     $('#idContainerKeyID').attr("hidden", true);
+    resetErrorFields();
 });
 
 const buildPayload = () => {
@@ -318,6 +319,15 @@ const sendAPNS_P12 = async () => {
     } catch (error) {
         alert("ERROR " + JSON.stringify(error))
     }
+}
+
+function resetErrorFields() {
+    $("#idKeyID").removeClass('is-invalid')
+    $("#idTeamID").removeClass('is-invalid')
+    $("#idBundleID").removeClass('is-invalid')
+    $("#idDeviceToken").removeClass('is-invalid')
+    $("#auth_cert_file").removeClass('is-invalid')
+    $("#txt_payload").removeClass('is-invalid')
 }
 
 
