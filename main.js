@@ -5,7 +5,7 @@ const {
 
 const path = require('path')
 
-const apns = require('./src/apns/apns.ts');
+const apns = require('./src/apns/apns.js');
 
 
 const createWindow = () => {
