@@ -16,6 +16,7 @@ const createWindow = () => {
         minHeight: 630,
         webPreferences: {
             preload: path.join(__dirname, '/src/preload/home-preload.js'),
+            devTools: false
         }
     })
 
