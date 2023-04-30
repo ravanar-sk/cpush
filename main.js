@@ -28,6 +28,7 @@ const createWindow = () => {
     //     return result
     // })
 
+    ipcMain.removeHandler("apnsAPI");
     ipcMain.handle("apnsAPI", async (event, ...args) => {
         return apns.apnsAPI(args[0], args[1], args[2], args[3], args[4])
         // const result = await apns.apnsAPI(args[0], args[1], args[2], args[3], args[4])
@@ -36,6 +37,8 @@ const createWindow = () => {
 
     win.loadFile('./src/ui/home.html')
 }
+
+if (require('electron-squirrel-startup')) app.quit();
 
 app.whenReady().then(() => {
     createWindow()
