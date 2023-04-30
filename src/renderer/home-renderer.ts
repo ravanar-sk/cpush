@@ -260,14 +260,12 @@ const sendAPNS_P8 = async () => {
 
     let stringPayload = $("#txt_payload").val()
 
-    let jsonPayload = {
-        "aps": {
-            "alert": stringPayload
-        }
-    }
+    let jsonPayload = JSON.parse(JSON.stringify(defaultJSONPayload));
 
     if ($("#idIsJSON").is(":checked")) {
         jsonPayload = JSON.parse(stringPayload);
+    } else {
+        jsonPayload.aps.alert = stringPayload
     }
 
     const header = {
@@ -277,10 +275,20 @@ const sendAPNS_P8 = async () => {
     }
 
     try {
-        const result = await window.native_bridge.sendPush(header, jsonPayload, deviceToken, true, privateKey, keyID, teamID)
+        const result = await window.native_bridge.apnsAPI(
+            isDev,
+            header,
+            jsonPayload,
+            deviceToken,
+            {
+                isP12: false,
+                privateKey,
+                keyID,
+                teamID,
+            });
         alert("SUCCESS" + JSON.stringify(result))
     } catch (error) {
-        alert("ERROR " + JSON.stringify(error))
+        alert(`ERROR : ${error}`)
     }
 }
 
@@ -289,22 +297,21 @@ const sendAPNS_P12 = async () => {
     const pushType = $("#idPushType").val()
     const priority = $("#idPushPririty").val()
     const bundleID = $("#idBundleID").val()
-    const p12base64 = await getPrivateKeyP12();
+    const p12Buffer = await getPrivateKeyP12();
     const password = $("#auth_cert_password").val();
 
     const deviceToken = $("#idDeviceToken").val()
+
     const isJSON = $("#idIsJSON").val()
 
     let stringPayload = $("#txt_payload").val()
 
-    let jsonPayload = {
-        "aps": {
-            "alert": stringPayload
-        }
-    }
+    let jsonPayload = JSON.parse(JSON.stringify(defaultJSONPayload));
 
     if ($("#idIsJSON").is(":checked")) {
         jsonPayload = JSON.parse(stringPayload);
+    } else {
+        jsonPayload.aps.alert = stringPayload
     }
 
     const header = {
@@ -314,10 +321,19 @@ const sendAPNS_P12 = async () => {
     }
 
     try {
-        const result = await window.native_bridge.sendPushP12(header, jsonPayload, deviceToken, isDev, p12base64, password)
+        const result = await window.native_bridge.apnsAPI(
+            isDev,
+            header,
+            jsonPayload,
+            deviceToken,
+            {
+                isP12: true,
+                buffer: p12Buffer,
+                password
+            });
         alert("SUCCESS" + JSON.stringify(result))
     } catch (error) {
-        alert("ERROR " + JSON.stringify(error))
+        alert(`ERROR : ${error}`)
     }
 }
 
@@ -329,7 +345,5 @@ function resetErrorFields() {
     $("#auth_cert_file").removeClass('is-invalid')
     $("#txt_payload").removeClass('is-invalid')
 }
-
-
 
 buildPayload()
