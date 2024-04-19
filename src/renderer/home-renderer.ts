@@ -247,7 +247,7 @@ function sendAPNSPush() {
 };
 
 const sendAPNS_P8 = async () => {
-    const isDev = $("#idIsJSON").is(":checked")
+    const isDev = $("#idIsDevelopment").is(":checked")
     const pushType = $("#idPushType").val()
     const priority = $("#idPushPririty").val()
     const keyID = $("#idKeyID").val()
@@ -293,7 +293,7 @@ const sendAPNS_P8 = async () => {
 }
 
 const sendAPNS_P12 = async () => {
-    const isDev = $("#idIsJSON").is(":checked")
+    const isDev = $("#idIsDevelopment").is(":checked")
     const pushType = $("#idPushType").val()
     const priority = $("#idPushPririty").val()
     const bundleID = $("#idBundleID").val()

@@ -1,7 +1,7 @@
 const {
     app,
     BrowserWindow,
-    ipcMain } = require('electron')
+    ipcMain } = require('electron/main')
 
 const path = require('path')
 
@@ -16,24 +16,13 @@ const createWindow = () => {
         minHeight: 630,
         webPreferences: {
             preload: path.join(__dirname, '/src/preload/home-preload.js'),
-            devTools: false
+            // devTools: false
         }
     })
-
-    // ipcMain.handle("sendPush", async (event, ...args) => {
-    //     const result = await apns.sendPush(args[0], args[1], args[2], args[3], args[4], args[5], args[6])
-    //     return result
-    // })
-    // ipcMain.handle("sendPushP12", async (event, ...args) => {
-    //     const result = await apns.sendPushP12(args[0], args[1], args[2], args[3], args[4], args[5])
-    //     return result
-    // })
 
     ipcMain.removeHandler("apnsAPI");
     ipcMain.handle("apnsAPI", async (event, ...args) => {
         return apns.apnsAPI(args[0], args[1], args[2], args[3], args[4])
-        // const result = await apns.apnsAPI(args[0], args[1], args[2], args[3], args[4])
-        // return result
     })
 
     win.loadFile('./src/ui/home.html')
