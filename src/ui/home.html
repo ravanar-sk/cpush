@@ -32,31 +32,58 @@
 
             <div class="vstack gap-2">
 
-                <!-- Is Development Checkbox -->
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="idIsDevelopment" checked>
-                    <label class="form-check-label" for="idIsDevelopment">
-                        is Development
-                    </label>
-                </div>
-
                 <!-- Button Group to select p8 or P12 -->
                 <div>
-                    <div class="btn-group btn-group-sm" role="group">
-                        <input type="radio" class="btn-check" name="btnradio2" id="btnP8" autocomplete="off" checked>
-                        <label class="btn btn-outline-secondary" for="btnP8">P8</label>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="btnradio2" id="btn_apns_iOS" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-secondary" for="btn_apns_iOS">iOS</label>
 
-                        <input type="radio" class="btn-check" name="btnradio2" id="btnP12" autocomplete="off">
-                        <label class="btn btn-outline-secondary" for="btnP12">P12</label>
+                        <input type="radio" class="btn-check" name="btnradio2" id="btn_apns_iPadOS" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_apns_iPadOS">iPadOS</label>
+
+                        <input type="radio" class="btn-check" name="btnradio2" id="btn_apns_macOS" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_apns_macOS">macOS</label>
+
+                        <input type="radio" class="btn-check" name="btnradio2" id="btn_apns_watchOS" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_apns_watchOS">watchOS</label>
+
+                        <input type="radio" class="btn-check" name="btnradio2" id="btn_apns_tvOS" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_apns_tvOS">tvOS</label>
                     </div>
+                </div>
+
+                <div class="hstack gap-2">
+
+                    <!-- Button Group to select p8 or P12 -->
+
+                    <div class="btn-group btn-group-sm" role="group">
+                        <input type="radio" class="btn-check" name="btnradio3" id="btn_apns_P8" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-secondary" for="btn_apns_P8">P8</label>
+
+                        <input type="radio" class="btn-check" name="btnradio3" id="btn_apns_P12" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_apns_P12">P12</label>
+                    </div>
+
+                    <!-- Is Development Checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="idIsDevelopment" checked>
+                        <label class="form-check-label" for="idIsDevelopment">
+                            is Development
+                        </label>
+                    </div>
+
+
+
                 </div>
 
                 <!-- Dropdown for Push type and Priority -->
                 <div class="hstack gap-2">
                     <div class="col">
                         <div class="input-group">
-                            <label class="input-group-text" for="idPushType">Push Type</label>
-                            <select class="form-select" id="idPushType">
+                            <label class="input-group-text" for="select_apns_PushType">Push Type</label>
+                            <select class="form-select" id="select_apns_PushType">
                                 <!-- <option selected>Choose...</option> -->
                                 <option value="alert">alert</option>
                                 <!-- <option value="background">background</option> -->
@@ -87,13 +114,13 @@
                 <!-- Input Field for Key ID and Team ID -->
                 <div id="idContainerKeyID" class="hstack gap-2">
                     <div class="col">
-                        <input id="idKeyID" class="form-control" type="text" placeholder="Key ID">
+                        <input id="txt_apns_KeyID" class="form-control" type="text" placeholder="Key ID">
                         <div class="invalid-feedback">
                             Please provide Key ID
                         </div>
                     </div>
                     <div class="col">
-                        <input id="idTeamID" class="form-control" type="text" placeholder="Team ID">
+                        <input id="txt_apns_TeamID" class="form-control" type="text" placeholder="Team ID">
                         <div class="invalid-feedback">
                             Please provide Team ID
                         </div>
@@ -102,7 +129,7 @@
 
                 <!-- Input field for App bundle ID -->
                 <div>
-                    <input id="idBundleID" class="form-control" type="text" placeholder="Bundle ID">
+                    <input id="txt_apns_BundleID" class="form-control" type="text" placeholder="Bundle ID">
                     <div class="invalid-feedback">
                         Please provide app bundle id
                     </div>
@@ -111,7 +138,7 @@
                 <!-- Input for Certificate selection and password -->
                 <div class="hstack gap-2">
                     <div class="col">
-                        <input id="auth_cert_file" type="file" class="form-control" accept=".p8">
+                        <input id="file_apns_auth_cert" type="file" class="form-control" accept=".p8">
                         <div class="invalid-feedback">
                             please select a certificate
                         </div>
@@ -123,7 +150,7 @@
 
                 <!-- Input field for device token -->
                 <div>
-                    <input id="idDeviceToken" class="form-control" type="text" placeholder="Device Token">
+                    <input id="txt_apns_DeviceToken" class="form-control" type="text" placeholder="Device Token">
                     <div class="invalid-feedback">
                         please add device token
                     </div>
@@ -131,8 +158,8 @@
 
                 <!-- Checkbox for JSON or Text -->
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="idIsJSON">
-                    <label class="form-check-label" for="idIsJSON">
+                    <input class="form-check-input" type="checkbox" id="chkbox_apns_isJSON">
+                    <label class="form-check-label" for="chkbox_apns_isJSON">
                         JSON
                     </label>
                 </div>
@@ -141,21 +168,21 @@
                 <div class="hstack gap-2">
                     <div class="col">
                         <label class="form-label">Push Message</label>
-                        <textarea class="form-control" id="txt_payload" rows="6">Hello World!</textarea>
+                        <textarea class="form-control" id="txt_apns_payload" rows="6">Hello World!</textarea>
                         <div class="invalid-feedback">
                             please add device token
                         </div>
                     </div>
                     <div class="col">
                         <label class="form-label">Payload preview:</label>
-                        <pre id="lbl_json_preview">
+                        <pre id="lbl_apns_json_preview">
                         </pre>
                     </div>
                 </div>
 
                 <!-- Send Push button -->
                 <div class="">
-                    <button id="btn_send_push" type="button" class="btn btn-outline-primary">Send Push</button>
+                    <button id="btn_apns_send_push" type="button" class="btn btn-outline-primary">Send Push</button>
                 </div>
             </div>
         </div>
@@ -164,6 +191,7 @@
     <script src="../library/bs/bootstrap.bundle.js"></script>
     <script src="../library/jq/jquery-3.6.3.slim.min.js"></script>
     <script src="../renderer/home-renderer.ts"></script>
+    <script src="../renderer/home-apns.ts"></script>
     <!-- <script src="../apns/apns.ts"></script> -->
 
 </body>
