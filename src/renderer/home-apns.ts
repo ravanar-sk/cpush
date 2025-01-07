@@ -122,6 +122,7 @@ $('#chkbox_apns_isJSON').on('click', function () {
 $('#btn_apns_P8').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", true);
     $('#file_apns_auth_cert').attr("accept", ".p8");
+    $('#file_apns_auth_cert').val(null);
     $('#idContainerKeyID').attr("hidden", false);
     resetErrorFields();
 });
@@ -129,39 +130,17 @@ $('#btn_apns_P8').on('click', function () {
 $('#btn_apns_P12').on('click', function () {
     $('#auth_cert_password_container').attr("hidden", false);
     $('#file_apns_auth_cert').attr("accept", ".p12")
+    $('#file_apns_auth_cert').val(null);
     $('#idContainerKeyID').attr("hidden", true);
     resetErrorFields();
 });
 
 $('#select_apns_PushType').on('change', function (event) {
-    // alert("CH " + JSON.stringify(event));
+    apns_loadPriorityForPushType();
 });
 
 function osTypeClickAction(event) {
-    $('#select_apns_PushType').empty();
-    // $('#idPushPririty').empty();
-
-    const json = apns[event.data.type];
-    const keys = Object.keys(json);
-    for (let index = 0; index < keys.length; index++) {
-        const key = keys[index];
-        const data = json[key]
-        $('#select_apns_PushType').append(`<option value=\"${key}\">${key}</option>`);
-    }
-
-    // switch (event.data.type) {
-    //     case "iOS":
-    //         break;
-    //     case "iPadOS":
-    //         break;
-    //     case "macOS":
-    //         break;
-    //     case "watchOS":
-    //         break;
-    //     case "tvOS":
-    //         break;
-    // }
-
+    apns_loadPushTypeForOS()
 }
 
 $('#btn_apns_iOS').on("click", { type: "iOS" }, osTypeClickAction);
@@ -238,8 +217,58 @@ const getPrivateKeyP12 = async () => {
     });
 }
 
-function loadDefaultUI() {
+function apns_OSType() {
+    if ($("#btn_apns_iOS").is(":checked"))
+        return 'iOS';
+    else if ($("#btn_apns_iPadOS").is(":checked"))
+        return 'iPadOS';
+    else if ($("#btn_apns_macOS").is(":checked"))
+        return 'macOS';
+    else if ($("#btn_apns_watchOS").is(":checked"))
+        return 'watchOS';
+    else if ($("#btn_apns_tvOS").is(":checked"))
+        return 'tvOS';
+    else
+    return '';
+}
 
+function apns_loadPushTypeForOS() {
+    const osType = apns_OSType();
+
+    if (osType.length > 0) {
+
+        $('#select_apns_PushType').empty();
+        
+        const json = apns[osType];
+        const keys = Object.keys(json);
+        for (let index = 0; index < keys.length; index++) {
+            const key = keys[index];
+            const data = json[key]
+            $('#select_apns_PushType').append(`<option value=\"${key}\">${key}</option>`);
+        }
+
+        apns_loadPriorityForPushType();
+    }
+
+}
+
+function apns_loadPriorityForPushType() {
+
+    const osType = apns_OSType();
+    const json = apns[osType];
+
+    const pushType = $("#select_apns_PushType").val()
+
+    const json_PushType = json[pushType];
+
+    const arrayPriority = json_PushType.priority;
+
+    $('#idPushPririty').empty();
+
+    for(let index = 0 ; index < arrayPriority.length ; index++) {
+        const priority = arrayPriority[index];
+        $('#idPushPririty').append(`<option value=\"${priority}\">${priority}</option>`);
+    }
 }
 
 function validData() {
