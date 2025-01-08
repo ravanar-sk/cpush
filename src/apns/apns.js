@@ -38,11 +38,84 @@ const generateAuthToken = async (privateKeyString, keyID, teamID) => {
 
 /**
  * API used to generate Key & Certificate to connect to APNS server
+ * @param {*} buffer 
+ * @param {*} passphrase 
+ * @returns 
+ */
+function convertPFX(buffer, passphrase) {
+    try {
+
+        const p12Asn1 = forge.asn1.fromDer(buffer);
+        // decrypt p12 using the password 'password'
+        let p12 = null;
+
+        if (passphrase.length > 0) {
+            p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, passphrase);
+        } else {
+            p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1);
+        }
+        
+        // get bags by type
+        const certBags = p12.getBags({ bagType: forge.pki.oids.certBag });
+        const pkeyBags = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag });
+        // fetching certBag
+        const certBag = certBags[forge.pki.oids.certBag][0];
+        // fetching keyBag
+        const keybag = pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag][0];
+        // generate pem from private key
+        const privateKeyPem = forge.pki.privateKeyToPem(keybag.key);
+        // generate pem from cert
+        const certificate = forge.pki.certificateToPem(certBag.cert);
+
+        return {
+            certificate: certificate,
+            key: privateKeyPem
+        };
+
+        // let p12buffer = ''
+
+        // if (Buffer.isBuffer(pfx)) {
+        //     p12buffer = pfx.toString('base64');
+        // } else {
+        //     p12buffer = pfx;
+        // }
+        // const p12Der = forge.util.decode64(p12buffer)
+        // const asn = forge.asn1.fromDer(p12Der,{parseAllBytes: false});
+        // const p12 = forge.pkcs12.pkcs12FromAsn1(asn, false, passphrase);
+
+        // const keyData = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[forge.pki.oids.pkcs8ShroudedKeyBag]
+        //     .concat(p12.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag]);
+        // const certBags = p12.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag];
+
+        // console.log(keyData);
+
+        // const privateKey = keyData[0].key
+        // // convert a Forge private key to an ASN.1 RSAPrivateKey
+        // const rsaPrivateKey = forge.pki.privateKeyToAsn1(privateKey);
+
+        // // wrap an RSAPrivateKey ASN.1 object in a PKCS#8 ASN.1 PrivateKeyInfo
+        // const privateKeyInfo = forge.pki.wrapRsaPrivateKey(rsaPrivateKey);
+
+        // // convert a PKCS#8 ASN.1 PrivateKeyInfo to PEM
+        // const pemKey = forge.pki.privateKeyInfoToPem(privateKeyInfo);
+
+        // return {
+        //     certificate: forge.pki.certificateToPem(certBags[0].cert),
+        //     key: pemKey
+        // };
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+/**
+ * API used to generate Key & Certificate to connect to APNS server
  * @param {*} pfx 
  * @param {*} passphrase 
  * @returns 
  */
-function convertPFX(pfx, passphrase) {
+function convertPFX_OLD(pfx, passphrase) {
     try {
 
         let p12buffer = ''
