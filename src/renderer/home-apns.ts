@@ -83,6 +83,13 @@ const apns = {
     }
 }
 
+const defaultAPNSJSONPayload = {
+    aps: {
+        alert: "Hello World!",
+        sound: "default"
+    }
+}
+
 
 
 /**
@@ -101,13 +108,6 @@ $('#btn_apns_send_push').on('click', function () {
         sendAPNSPush();
     }
 });
-
-const defaultAPNSJSONPayload = {
-    aps: {
-        alert: "Hello World!",
-        sound: "default"
-    }
-}
 
 $('#chkbox_apns_isJSON').on('click', function () {
     if ($("#chkbox_apns_isJSON").is(":checked")) {
@@ -173,6 +173,10 @@ const buildPayload = () => {
     }
 }
 
+/**
+ * Async method used to fetch the private key from the .p8 file
+ * @returns Promise
+ */
 const getPrivateKeyP8 = () => {
     return new Promise((resolve, reject) => {
         var file = document.getElementById("file_apns_auth_cert").files[0];
@@ -193,6 +197,10 @@ const getPrivateKeyP8 = () => {
     });
 }
 
+/**
+ * Async method used to fetch the private key from the .p12 file
+ * @returns Promise
+ */
 const getPrivateKeyP12 = async () => {
 
     return new Promise((resolve, reject) => {
@@ -217,6 +225,10 @@ const getPrivateKeyP12 = async () => {
     });
 }
 
+/**
+ * Method returns the OS type selected
+ * @returns String iOS/iPadOS/macOS/watchOS/tvOS
+ */
 function apns_OSType() {
     if ($("#btn_apns_iOS").is(":checked"))
         return 'iOS';
@@ -232,6 +244,9 @@ function apns_OSType() {
     return '';
 }
 
+/**
+ * Method which lists the push type based on the OS type
+ */
 function apns_loadPushTypeForOS() {
     const osType = apns_OSType();
 
@@ -252,6 +267,9 @@ function apns_loadPushTypeForOS() {
 
 }
 
+/**
+ * Method which lists the priority field for the OS type & Push Type
+ */
 function apns_loadPriorityForPushType() {
 
     const osType = apns_OSType();
@@ -271,6 +289,10 @@ function apns_loadPriorityForPushType() {
     }
 }
 
+/**
+ * Method used to validate the form for APNS 
+ * @returns Returns true/false where true indicates the form is valid
+ */
 function validData() {
 
     let isValid = true
@@ -389,6 +411,10 @@ function validData() {
     }
     return isValid;
 }
+
+/**
+ * Click Action for element #btn_apns_send_push
+ */
 function sendAPNSPush() {
     if ($("#btn_apns_P8").is(":checked")) {
         sendAPNS_P8()
@@ -399,6 +425,9 @@ function sendAPNSPush() {
     }
 };
 
+/**
+ * Method used to send push notification using the .p8 file certificate from the apple developer account
+ */
 const sendAPNS_P8 = async () => {
     const isDev = $("#idIsDevelopment").is(":checked")
     const pushType = $("#select_apns_PushType").val()
@@ -445,6 +474,9 @@ const sendAPNS_P8 = async () => {
     }
 }
 
+/**
+ * Method used to send push notification using the .p12 file certificate from the apple developer account
+ */
 const sendAPNS_P12 = async () => {
     const isDev = $("#idIsDevelopment").is(":checked")
     const pushType = $("#select_apns_PushType").val()
@@ -489,7 +521,9 @@ const sendAPNS_P12 = async () => {
         alert(`ERROR : ${error}`)
     }
 }
-
+/**
+ * 
+ */
 function resetErrorFields() {
     $("#txt_apns_KeyID").removeClass('is-invalid')
     $("#txt_apns_TeamID").removeClass('is-invalid')
