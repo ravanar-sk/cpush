@@ -434,7 +434,13 @@ const sendAPNS_P8 = async () => {
     const priority = $("#idPushPririty").val()
     const keyID = $("#txt_apns_KeyID").val()
     const teamID = $("#txt_apns_TeamID").val()
-    const bundleID = $("#txt_apns_BundleID").val()
+
+    const osType = apns_OSType();
+    const json = apns[osType];
+    const json_PushType = json[pushType];
+    const bundleID_suffix = json_PushType.bundleID_suffix;
+    const bundleID = $("#txt_apns_BundleID").val() + bundleID_suffix 
+
     const privateKey = await getPrivateKeyP8();
 
     const deviceToken = $("#txt_apns_DeviceToken").val()
@@ -481,7 +487,13 @@ const sendAPNS_P12 = async () => {
     const isDev = $("#idIsDevelopment").is(":checked")
     const pushType = $("#select_apns_PushType").val()
     const priority = $("#idPushPririty").val()
-    const bundleID = $("#txt_apns_BundleID").val()
+
+    const osType = apns_OSType();
+    const json = apns[osType];
+    const json_PushType = json[pushType];
+    const bundleID_suffix = json_PushType.bundleID_suffix;
+    const bundleID = $("#txt_apns_BundleID").val() + bundleID_suffix
+
     const p12Buffer = await getPrivateKeyP12();
     const password = $("#auth_cert_password").val();
 
