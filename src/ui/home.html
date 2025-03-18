@@ -20,7 +20,7 @@
             <!-- Content here -->
             <!-- APNS -->
 
-            <!-- <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mb-3">
                 <div class="btn-group btn-group-lg " role="group">
                     <input type="radio" class="btn-check" name="btnradio" id="btnAPNS" autocomplete="off" checked>
                     <label class="btn btn-outline-secondary" for="btnAPNS">APNS</label>
@@ -28,9 +28,16 @@
                     <input type="radio" class="btn-check" name="btnradio" id="btnFCM" autocomplete="off">
                     <label class="btn btn-outline-secondary" for="btnFCM">FCM</label>
                 </div>
-            </div> -->
+            </div>
 
-            <div class="vstack gap-2">
+            <!-- APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS
+             APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS APNS -->
+            <div class="vstack gap-2" id="container_apns">
 
                 <!-- Button Group to select p8 or P12 -->
                 <div>
@@ -128,16 +135,16 @@
                 </div>
 
                 <!-- Input field for App bundle ID -->
-                    <div>
-                        <input id="txt_apns_BundleID" class="form-control" type="text" placeholder="Bundle ID">
-                        <div class="invalid-feedback">
-                            Please provide app bundle id
-                        </div>
+                <div>
+                    <input id="txt_apns_BundleID" class="form-control" type="text" placeholder="Bundle ID">
+                    <div class="invalid-feedback">
+                        Please provide app bundle id
                     </div>
+                </div>
 
-                    
-                
-                
+
+
+
 
                 <!-- Input for Certificate selection and password -->
                 <div class="hstack gap-2">
@@ -174,7 +181,7 @@
                         <label class="form-label">Push Message</label>
                         <textarea class="form-control" id="txt_apns_payload" rows="6">Hello World!</textarea>
                         <div class="invalid-feedback">
-                            please add device token
+                            please add valid payload
                         </div>
                     </div>
                     <div class="col-6">
@@ -189,12 +196,84 @@
                     <button id="btn_apns_send_push" type="button" class="btn btn-outline-primary">Send Push</button>
                 </div>
             </div>
+
+            <!-- FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM
+             FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM FCM -->
+            <div class="vstack gap-2 d-none" id="container_fcm">
+
+                <!-- Button Group to select p8 or P12 -->
+                <div>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="btnradio4" id="btn_fcm_device" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-secondary" for="btn_fcm_device">Device</label>
+
+                        <input type="radio" class="btn-check" name="btnradio4" id="btn_fcm_topic" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="btn_fcm_topic">Topic</label>
+                    </div>
+                </div>
+
+                <!-- Input for Certificate selection and password -->
+                <div class="hstack gap-2">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" class="form-label">Select Google Service file</label>
+                        <input id="file_fcm_google_services_json" type="file" class="form-control" accept=".json">
+                        <div class="invalid-feedback">
+                            please select the goole service .json file.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input field for device token -->
+                <div>
+                    <input id="txt_fcm_DeviceToken" class="form-control" type="text" placeholder="Device Token">
+                    <div class="invalid-feedback">
+                        please add device-token/topic
+                    </div>
+                </div>
+
+                <!-- Checkbox for JSON or Text -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="chkbox_fcm_isJSON">
+                    <label class="form-check-label" for="chkbox_fcm_isJSON">
+                        JSON
+                    </label>
+                </div>
+
+                <!-- TextArea for JSON or Text input and JSON preview -->
+                <div class="hstack gap-2">
+                    <div class="col-6">
+                        <label class="form-label">Push Message</label>
+                        <textarea class="form-control" id="txt_fcm_payload" rows="6">Hello World!</textarea>
+                        <div class="invalid-feedback">
+                            please add valid payload
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Payload preview:</label>
+                        <pre id="lbl_fcm_json_preview"></pre>
+                    </div>
+                </div>
+
+                <!-- Send Push button -->
+                <div class=".container-fluid">
+                    <button id="btn_fcm_send_push" type="button" class="btn btn-outline-primary .container-fluid">Send
+                        Push</button>
+                </div>
+
+            </div>
         </div>
     </form>
 
     <script src="../library/bs/bootstrap.bundle.js"></script>
     <script src="../library/jq/jquery-3.6.3.slim.min.js"></script>
     <script src="../renderer/home-apns.ts"></script>
+    <script src="../renderer/home-fcm.ts"></script>
     <script src="../renderer/home-renderer.ts"></script>
     <!-- <script src="../apns/apns.ts"></script> -->
 
