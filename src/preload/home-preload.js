@@ -3,10 +3,10 @@ const { contextBridge, ipcRenderer } = require('electron')
 console.log("Preload script executed");
 
 contextBridge.exposeInMainWorld('native_bridge', {
-  sendPush: (...args) => {
-    return ipcRenderer.invoke('sendPush', ...args)
+  apnsAPI: (...args) => {
+    return ipcRenderer.invoke('apnsAPI', ...args)
   },
-  sendPushP12: (...args) => {
-    return ipcRenderer.invoke('sendPushP12', ...args)
+  fcmAPI: (...args) => {
+    return ipcRenderer.invoke('fcmAPI', ...args)
   }
 });
