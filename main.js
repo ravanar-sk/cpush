@@ -17,7 +17,8 @@ const createWindow = () => {
         webPreferences: {
             preload: path.join(__dirname, '/src/preload/home-preload.js'),
             // devTools: false
-        }
+        },
+        icon: path.join(__dirname,"src","assets","app-icon","AppIcon.icns")
     })
 
     
